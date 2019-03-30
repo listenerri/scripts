@@ -12,7 +12,11 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(b'Only handle POST requests.\n')
         print("got GET request")
     def do_POST(self):
-        print("got POST request")
+        print("got POST request\n")
+        print("the header is:", self.headers)
+        print("the path is:", self.path)
+        print("the request is:", self.request)
+        print("the request line is:", self.requestline)
 
 def main():
     port = 2345
