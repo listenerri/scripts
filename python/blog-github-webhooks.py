@@ -13,10 +13,15 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         print("got GET request")
     def do_POST(self):
         print("got POST request\n")
-        print("the header is:", self.headers)
-        print("the path is:", self.path)
-        print("the request is:", self.request)
-        print("the request line is:", self.requestline)
+        statusCode = 200
+        resposeData = b"Received request, updating blog"
+        if self.path != "/pushed":
+            statusCode = 403
+            resposeData = b"Reject the request"
+        self.send_response(statusCode)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(resposeData)
 
 def main():
     port = 2345
