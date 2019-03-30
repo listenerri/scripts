@@ -3,25 +3,33 @@
 
 from http.server import BaseHTTPRequestHandler
 from http.server import HTTPServer
+import os
+import subprocess
 
 class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
+
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(b'Only handle POST requests.\n')
-        print("got GET request")
+
     def do_POST(self):
-        print("got POST request\n")
-        statusCode = 200
-        resposeData = b"Received request, updating blog"
-        if self.path != "/pushed":
-            statusCode = 403
-            resposeData = b"Reject the request"
+        statusCode = 403
+        resposeData = b"Reject the request"
+        if self.path == "/pushed":
+            statusCode, resposeData = self.updateBlog()
         self.send_response(statusCode)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(resposeData)
+        self.wfile.write(bytes(resposeData, "utf-8"))
+
+    def updateBlog(self):
+        os.chdir("/opt/hexo-blog")
+        code, result = subprocess.getstatusoutput("git pull origin master")
+        if code != 0:
+            code = 500
+        return code, result
 
 def main():
     port = 2345
