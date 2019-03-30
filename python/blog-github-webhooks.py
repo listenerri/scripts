@@ -16,19 +16,18 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         statusCode = 403
-        resposeData = b"Reject the request"
+        responseData = b"Reject the request"
         if self.path == "/pushed":
-            statusCode, resposeData = self.updateBlog()
+            statusCode, responseData = self.updateBlog()
         self.send_response(statusCode)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(bytes(resposeData, "utf-8"))
+        self.wfile.write(bytes(responseData, "utf-8"))
 
     def updateBlog(self):
         os.chdir("/opt/hexo-blog")
         code, result = subprocess.getstatusoutput("git pull origin master")
-        if code != 0:
-            code = 500
+        code = 200 if code == 0 else 500
         return code, result
 
 def main():
