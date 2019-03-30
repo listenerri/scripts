@@ -5,6 +5,7 @@ from http.server import BaseHTTPRequestHandler
 from http.server import HTTPServer
 import os
 import subprocess
+import sys
 
 class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
 
@@ -13,6 +14,7 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(b'Only handle POST requests.\n')
+        flushLog()
 
     def do_POST(self):
         statusCode = 403
@@ -23,6 +25,7 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(bytes(responseData, "utf-8"))
+        flushLog()
 
     def updateBlog(self):
         os.chdir("/opt/hexo-blog")
@@ -30,10 +33,15 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         code = 200 if code == 0 else 500
         return code, result
 
+def flushLog():
+    sys.stdout.flush()
+    sys.stderr.flush()
+
 def main():
     port = 2345
     httpd = HTTPServer(("", port), MyBaseHTTPRequestHandler)
     print("Running on port: %d"%(port))
+    flushLog()
     httpd.serve_forever()
 
 if __name__ == "__main__":
