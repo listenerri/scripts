@@ -25,13 +25,18 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(bytes(responseData, "utf-8"))
-        print(responseData)
         flushLog()
 
     def updateBlog(self):
         os.chdir("/opt/hexo-blog")
         code, result = subprocess.getstatusoutput("git pull origin master")
-        code = 200 if code == 0 else 500
+        print(result)
+        if code == 0:
+            code = 200
+            result = "blog updated :)"
+        else:
+            code = 500
+            result = "blog update failed :("
         return code, result
 
 def flushLog():
