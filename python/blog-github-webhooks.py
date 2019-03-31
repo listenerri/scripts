@@ -30,12 +30,12 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
     def updateBlog(self):
         os.chdir("/opt/hexo-blog")
         code, result = subprocess.getstatusoutput("git pull origin master")
-        print(result)
         if code == 0:
             code = 200
             result = "blog updated :)"
         else:
             code = 500
+            print(result)
             result = "blog update failed :("
         return code, result
 
