@@ -25,6 +25,7 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(bytes(responseData, "utf-8"))
+        print(responseData)
         flushLog()
 
     def updateBlog(self):
