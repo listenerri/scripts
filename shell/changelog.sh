@@ -19,7 +19,7 @@ else
 fi
 
 echo "The older tags is:"
-git tag | tail
+git tag | sort -V | tail
 
 read -rp "input the new tag: " dest_tag
 
