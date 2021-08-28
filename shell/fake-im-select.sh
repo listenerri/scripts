@@ -7,6 +7,10 @@ IM_CN="2"
 
 FCITX_CMD=/usr/bin/fcitx-remote
 
+if [[ ! -f $(file FCITX_CMD) ]]; then
+    FCITX_CMD=/usr/bin/fcitx5-remote
+fi
+
 # there is no arguments that means query the current im
 if [[ -z $@ ]]; then
     if [[ "1" == $($FCITX_CMD) ]]; then
