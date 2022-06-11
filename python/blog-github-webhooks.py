@@ -28,8 +28,9 @@ class MyBaseHTTPRequestHandler(BaseHTTPRequestHandler):
         flushLog()
 
     def updateBlog(self):
-        os.chdir("/opt/hexo-blog")
-        code, result = subprocess.getstatusoutput("git pull origin master")
+        os.chdir("/opt")
+        subprocess.call(["rm", "-rf", "hexo-blog"])
+        code, result = subprocess.getstatusoutput("git clone git@github.com:listenerri/listenerri.github.io.git hexo-blog")
         if code == 0:
             code = 200
             result = "blog updated :)"
