@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# this script in order to fake the im-select in mac osx for fcitx in linux
+# this script is a implemention of im-select cmd on linux with fcitx
 
-IM_EN="com.apple.keylayout.ABC"
+IM_EN="1"
 IM_CN="2"
 
 FCITX_CMD=/usr/bin/fcitx-remote
@@ -13,11 +13,7 @@ fi
 
 # there is no arguments that means query the current im
 if [[ -z $@ ]]; then
-    if [[ "1" == $($FCITX_CMD) ]]; then
-        echo "$IM_EN"
-    else
-        echo "$IM_CN"
-    fi
+    echo "$($FCITX_CMD)"
 else
     if [[ "$@" == "$IM_EN" ]]; then
         $FCITX_CMD -c
