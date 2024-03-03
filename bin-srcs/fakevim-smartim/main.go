@@ -76,6 +76,9 @@ func switchToEn() {
 func restoreIM() {
 	data, err := os.ReadFile(CacheFilePath)
 	if err != nil {
+		if os.IsNotExist(err) {
+			return
+		}
 		fmt.Printf("Read file %v error: %v\n", CacheFilePath, err)
 		return
 	}
