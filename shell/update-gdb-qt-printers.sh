@@ -8,4 +8,5 @@ wget https://invent.kde.org/kdevelop/kdevelop/-/archive/master/kdevelop-master.t
 tar xf kdevelop-master.tar.gz
 rm -rf ./printers
 mv kdevelop-master/plugins/gdb/printers ./
-
+rm -rf kdevelop-master kdevelop-master.tar.gz
+echo done
